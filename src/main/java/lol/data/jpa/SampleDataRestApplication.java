@@ -16,11 +16,9 @@
 
 package lol.data.jpa;
 
-import org.springframework.beans.BeansException;
+import org.hibernate.validator.HibernateValidator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -28,9 +26,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguration;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
-
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorFactory;
 
 @Configuration
 //@ComponentScan(basePackages = {"lol.data.jpa", "lol.data.jpa.domain", "lol.data.jpa.domain.validator", "lol.data.jpa.domain.service"})
@@ -44,14 +39,14 @@ public class SampleDataRestApplication {
     }
 
     @Bean
-    public javax.validation.Validator vaidator() {
+    public LocalValidatorFactoryBean validator() {
         return new LocalValidatorFactoryBean();
     }
 
     @Bean
     public MethodValidationPostProcessor methodValidationPostProcessor() {
         MethodValidationPostProcessor postProcessor = new MethodValidationPostProcessor();
-        System.out.println("postProcessor");
+        postProcessor.setValidatorFactory(validator()); // TODO make sure 2 validator factory beans are NOT created
         return postProcessor;
     }
 

@@ -1,5 +1,6 @@
 package lol.data.jpa.service;
 
+import lol.data.jpa.BeanValidator;
 import lol.data.jpa.CityPojo;
 import lol.data.jpa.SampleDataRestApplication;
 import org.junit.Test;
@@ -17,9 +18,13 @@ public class TestingValidationIntegration {
 
     @Test
     public void testValidation() {
+
         CityPojo pojo = new CityPojo();
         pojo.setName("Baia Mare");
+
         cityService.createNewCity(pojo);
+
+
     }
 
 

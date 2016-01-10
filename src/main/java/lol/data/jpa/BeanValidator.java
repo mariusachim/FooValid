@@ -1,13 +1,15 @@
 package lol.data.jpa;
 
+import org.hibernate.validator.HibernateValidator;
+import org.hibernate.validator.HibernateValidatorConfiguration;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.validation.Errors;
+import org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory;
 
 import javax.validation.*;
-import javax.validation.bootstrap.GenericBootstrap;
 import java.util.Map;
 import java.util.Set;
 
@@ -23,8 +25,9 @@ public class BeanValidator implements org.springframework.validation.Validator,
     }
 
     public void afterPropertiesSet() throws Exception {
-        GenericBootstrap bootstrap = Validation.byDefaultProvider();
-        Configuration c = bootstrap.configure().constraintValidatorFactory(this);
+        SpringConstraintValidatorFactory springAutowireFactory = new SpringConstraintValidatorFactory(applicationContext.getAutowireCapableBeanFactory());
+        HibernateValidatorConfiguration config = Validation.byProvider(HibernateValidator.class).configure();
+        validator = config.buildValidatorFactory().usingContext().constraintValidatorFactory(springAutowireFactory).getValidator();
     }
 
     public <T extends ConstraintValidator<?, ?>> T getInstance(Class<T> key) {
