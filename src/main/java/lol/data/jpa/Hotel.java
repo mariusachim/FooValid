@@ -24,7 +24,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-import lol.data.jpa.City;
 import org.hibernate.annotations.NaturalId;
 
 @Entity

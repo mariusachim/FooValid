@@ -1,11 +1,11 @@
 package lol.data.jpa;
 
-public class CityPojo {
+public class CityValidated {
 
-    @FooValidateMe
+    @FooValidateMe(message = "works!")
     private String name;
 
-    public CityPojo() {
+    public CityValidated() {
 
     }
 
